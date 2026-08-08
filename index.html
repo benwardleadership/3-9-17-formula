@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The 3-9-17 Formula: Coach up, or coach out</title>
+<meta name="description" content="A ten-minute guided tool for sales leaders unsure about someone on their team. 3 checks, 9 questions, one clear path — with the playbook to act on it." />
+<link rel="stylesheet" href="tool/styles.css" />
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand">The 3<b>-</b>9<b>-</b>17 Formula</div>
+    <div class="progress"><span id="pcount">0/12</span><div class="pbar"><i id="pbar-fill"></i></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="resume" id="resume">
+    <p>You have a session in progress.</p>
+    <div class="btns">
+      <button type="button" class="btn btn-teal" id="btn-resume">Pick up where I left off</button>
+      <button type="button" class="btn btn-ghost" id="btn-fresh">Start fresh</button>
+    </div>
+  </div>
+
+  <section class="hero" data-screen-label="Welcome">
+    <div class="kick">The Sellership System® · Leadership Tool</div>
+    <h1>3<span class="d">-</span>9<span class="d">-</span>17</h1>
+    <div class="scr">coach up, or coach out. with confidence.</div>
+    <p class="lead">You're unsure about someone on your team. In the next ten minutes, you'll run <b>3 checks</b> on yourself, answer <b>9 questions</b> about them, and land on a clear path, with the playbook to act on it.</p>
+    <div class="privacy">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7A8DA0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      <span>Private by design. No names, no accounts. Your answers stay on this device unless you choose to email yourself a copy.</span>
+    </div>
+    <p style="margin-top:28px"><button type="button" class="btn btn-primary" id="btn-start">Start</button></p>
+  </section>
+
+  <section class="step" id="step-checks" data-screen-label="The 3 Checks">
+    <div class="shead">
+      <div class="num">3</div>
+      <div class="tt"><div class="t1">The 3 Checks</div><div class="t2">Run these on yourself first</div><div class="kl"></div></div>
+    </div>
+    <p class="sintro">Before you evaluate anyone else, run these on yourself. <b>Answer honestly.</b> A "not fully" isn't a failure, it's a to-do.</p>
+    <div id="checks-host"></div>
+    <div class="gatebar" id="gatebar">
+      <div class="gt">The work may be yours first</div>
+      <p>One or more checks isn't a clear yes. You can keep going, but your final path will start with the leadership work, and your answers below will feed the plan.</p>
+    </div>
+    <div class="continue" id="checks-continue">
+      <button type="button" class="btn btn-primary" id="btn-to-questions">Continue to the 9 Questions</button>
+    </div>
+  </section>
+
+  <section class="step" id="step-questions" data-screen-label="The 9 Questions">
+    <div class="shead">
+      <div class="num">9</div>
+      <div class="tt"><div class="t1">The 9 Questions</div><div class="t2">Ask yourself about them</div><div class="kl"></div></div>
+    </div>
+    <p class="sintro">Answer honestly, in order. <b>Don't skip.</b> Some answers will open a coaching note. That's the tool doing its job.</p>
+    <div id="questions-host"></div>
+    <div class="continue" id="questions-continue">
+      <button type="button" class="btn btn-primary" id="btn-to-synthesis">See what my answers say</button>
+    </div>
+  </section>
+
+  <section class="step" id="step-synthesis" data-screen-label="Synthesis">
+    <div class="shead">
+      <div class="num">=</div>
+      <div class="tt"><div class="t1">In your own words</div><div class="t2">Here's what you just said</div><div class="kl"></div></div>
+    </div>
+    <div class="mirror">
+      <div class="mt">Read this back slowly</div>
+      <ul id="mirror-list"></ul>
+    </div>
+    <div class="continue show">
+      <button type="button" class="btn btn-primary" id="btn-reveal">Reveal my path</button>
+    </div>
+  </section>
+
+  <section class="step" id="step-result" data-screen-label="Your Path">
+    <div class="result-hero" id="result-hero"></div>
+
+    <div class="rwhy">
+      <div class="wt">Because you said</div>
+      <ul id="rwhy-list"></ul>
+    </div>
+
+    <div class="playbook">
+      <div class="pt">Your playbook</div>
+      <div id="playbook-host"></div>
+    </div>
+
+    <div class="playbook">
+      <div class="pt">Words that help. Adapt, don't read.</div>
+      <div id="result-phrases"></div>
+    </div>
+
+    <div class="justified" id="justified" style="display:none">
+      <div class="jl">A note on being justified</div>
+      <p></p>
+    </div>
+
+    <div class="keep">
+      <div class="kt">Keep this</div>
+      <p>Your one-page decision brief: the path, your words, and the playbook.</p>
+      <div class="kbtns">
+        <button type="button" class="btn btn-primary" id="btn-email">Email it to me</button>
+        <button type="button" class="btn btn-ghost" id="btn-pdf">Save as PDF</button>
+        <button type="button" class="btn btn-ghost" id="btn-print">Print</button>
+        <button type="button" class="btn btn-ghost" id="btn-download">Download summary</button>
+      </div>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:10px;">Save as PDF and Print open your browser's print dialog — choose "Save as PDF" as the destination if you want a file.</p>
+      <div class="emailform" id="emailform">
+        <div class="row2">
+          <input type="text" id="ef-name" placeholder="Your name (optional)" autocomplete="name" />
+          <input type="email" id="ef-email" placeholder="you@company.com" autocomplete="email" required />
+        </div>
+        <button type="button" class="btn btn-teal" id="ef-send">Send it to me</button>
+        <p style="font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.5;">We'll email your decision brief to this address. A copy also goes to the Sellership team so Ben can see how leaders are using the tool — no names of your team member are ever included.</p>
+        <div class="sent" id="ef-sent"></div>
+        <div class="err" id="ef-err"></div>
+      </div>
+    </div>
+
+    <div class="startover"><button type="button" id="btn-startover">Start over with someone else</button></div>
+  </section>
+
+  <div class="foot">
+    <span>Make it a great day.</span>
+    <span class="r">BenWard.com · Sellership</span>
+  </div>
+</div>
+
+<div id="brief"></div>
+
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal-box">
+    <p></p>
+    <div class="mbtns">
+      <button type="button" class="btn btn-ghost" id="modal-no">Cancel</button>
+      <button type="button" class="btn btn-primary" id="modal-yes">Start over</button>
+    </div>
+  </div>
+</div>
+
+<script src="tool/content.js"></script>
+<script src="tool/logic.js"></script>
+<script src="tool/app.js"></script>
+</body>
+</html>
