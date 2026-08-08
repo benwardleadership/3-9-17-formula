@@ -149,5 +149,48 @@
 <script src="tool/content.js"></script>
 <script src="tool/logic.js"></script>
 <script src="tool/app.js"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+
+  if (token) {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      
+      const studentData = JSON.parse(jsonPayload);
+
+      // The Patient Hound: Checks every 1 second until the exact email screen loads
+      const fillInterval = setInterval(() => {
+        
+        // Exact IDs found in your 3-9-17 HTML
+        const nameField = document.getElementById('ef-name');
+        const emailField = document.getElementById('ef-email');
+
+        if (nameField || emailField) {
+          
+          if (nameField && !nameField.value) {
+            nameField.value = studentData.first_name || '';
+            nameField.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          
+          if (emailField && !emailField.value) {
+            emailField.value = studentData.email || '';
+            emailField.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+          
+          console.log("Successfully found and pre-filled the 3-9-17 form!");
+          clearInterval(fillInterval); 
+        }
+      }, 1000);
+
+    } catch (error) {
+      console.error("Error decoding the token from WordPress:", error);
+    }
+  }
+</script>
 </body>
 </html>
