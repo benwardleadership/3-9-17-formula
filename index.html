@@ -195,18 +195,25 @@
 
 <script>
   // --- BULLETPROOF GHL WEBHOOK INTERCEPTOR ---
-  // Hijacks the old /api/send email function and routes it to GoHighLevel!
   const originalFetch = window.fetch;
   window.fetch = async function(...args) {
     const url = args[0];
     
-    // If the app tries to send the email to the old backend...
     if (typeof url === 'string' && url.includes('/api/send')) {
       const options = args[1] || {};
       const payload = JSON.parse(options.body || '{}');
       
       try {
-        // Route it to GoHighLevel instead!
+        // Automatically format the plain text into rich HTML
+        let formattedSummary = payload.summary || '';
+        formattedSummary = formattedSummary
+          .replace('THE 3-9-17 FORMULA — YOUR DECISION BRIEF', '<strong>THE 3-9-17 FORMULA — YOUR DECISION BRIEF</strong>')
+          .replace(/(PATH:.*)/g, '<strong>$1</strong>')
+          .replace('BECAUSE YOU SAID:', '<strong>BECAUSE YOU SAID:</strong>')
+          .replace(/(YOUR PLAYBOOK.*)/g, '<strong>$1</strong>')
+          .replace(/^- (.*)/gm, '&bull; $1'); // Converts dashes to bullet dots
+          
+        // Route it to GoHighLevel!
         await originalFetch('https://services.leadconnectorhq.com/hooks/hSaFvrJCzT0Sm24oVo9H/webhook-trigger/50adcf10-4d7b-41ef-95a3-3bd99d859909', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -214,11 +221,10 @@
             first_name: payload.name || '',
             email: payload.email || '',
             decision_path: payload.path || '',
-            playbook_summary: payload.summary || ''
+            playbook_summary: formattedSummary // Sending the newly formatted HTML!
           })
         });
         
-        // Trick the app into thinking the old email system worked perfectly so it shows the "Success" message on screen
         return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { 'Content-Type': 'application/json' }});
       } catch(err) {
         console.error("GHL Webhook Error:", err);
@@ -226,7 +232,6 @@
       }
     }
     
-    // Otherwise, let the browser do its normal fetches
     return originalFetch.apply(this, args);
   };
 </script>
