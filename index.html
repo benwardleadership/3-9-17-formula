@@ -237,4 +237,55 @@
 </script>
 
 </body>
+  <script>
+/* ==========================================================================
+   3-9-17 ASSESSMENT TOOL: ALL-IN-ONE COMPLETION & REDIRECT TRIGGER
+   ========================================================================== */
+
+function triggerCompletionAndRedirect() {
+    const targetUrl = "https://university.benward.com/accountability-pilar-3/?formula3917=completed#section-2";
+    if (window.top) {
+        window.top.location.href = targetUrl;
+    } else {
+        window.location.href = targetUrl;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Trigger 1: Email Form Submission
+    const emailForm = document.getElementById("emailForm");
+    if (emailForm) {
+        emailForm.addEventListener("submit", function() {
+            triggerCompletionAndRedirect();
+        });
+    }
+
+    // Trigger 2: Save as PDF Button
+    const savePdfBtn = document.getElementById("savePdfBtn");
+    if (savePdfBtn) {
+        savePdfBtn.addEventListener("click", function() {
+            setTimeout(triggerCompletionAndRedirect, 1000);
+        });
+    }
+
+    // Trigger 3: Print Button
+    const printBtn = document.getElementById("printBtn");
+    if (printBtn) {
+        printBtn.addEventListener("click", function() {
+            window.print();
+            triggerCompletionAndRedirect();
+        });
+    }
+
+    // Trigger 4: Download Summary Button
+    const downloadSummaryBtn = document.getElementById("downloadSummaryBtn");
+    if (downloadSummaryBtn) {
+        downloadSummaryBtn.addEventListener("click", function() {
+            setTimeout(triggerCompletionAndRedirect, 1000);
+        });
+    }
+
+});
+</script>
 </html>
