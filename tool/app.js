@@ -331,12 +331,29 @@
 
   /* ---------- keep it: print / pdf / download / email ---------- */
 
+  // Attach a listener only if the element exists, so one missing button
+  // can never stop the rest of the page (like saved progress) from loading.
+  function on(id, evt, fn) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener(evt, fn);
+  }
+
+  var COMPLETION_URL = 'https://university.benward.com/accountability-pilar-3/?formula3917=completed#section-2';
+
+  function goToCompletionPage() {
+    try {
+      (window.top || window).location.href = COMPLETION_URL;
+    } catch (e) {
+      window.location.href = COMPLETION_URL;
+    }
+  }
+
   function wireKeepIt() {
-    document.getElementById('btn-print').addEventListener('click', function () { window.print(); });
-    document.getElementById('btn-pdf').addEventListener('click', function () {
+    on('btn-print', 'click', function () { window.print(); });
+    on('btn-pdf', 'click', function () {
       window.print();
     });
-    document.getElementById('btn-download').addEventListener('click', function () {
+    on('btn-download', 'click', function () {
       var decision = state.__decision || window.LOGIC.decide(state.checks, state.questions);
       var text = buildSummaryText(decision);
       var blob = new Blob([text], { type: 'text/plain' });
@@ -350,11 +367,12 @@
       URL.revokeObjectURL(url);
     });
 
-    document.getElementById('btn-email').addEventListener('click', function () {
-      document.getElementById('emailform').classList.add('show');
+    on('btn-email', 'click', function () {
+      var form = document.getElementById('emailform');
+      if (form) form.classList.add('show');
     });
 
-    document.getElementById('ef-send').addEventListener('click', function () {
+    on('ef-send', 'click', function () {
       var email = document.getElementById('ef-email').value.trim();
       var name = document.getElementById('ef-name').value.trim();
       var errEl = document.getElementById('ef-err');
@@ -385,10 +403,12 @@
       }).then(function () {
         sentEl.textContent = 'Sent to ' + email + '. Check your inbox.';
         sentEl.classList.add('show');
+        sendBtn.textContent = 'Sent';
+        // Only move on to the next lesson after the email actually went out.
+        setTimeout(goToCompletionPage, 1500);
       }).catch(function () {
         errEl.textContent = 'Something went wrong sending that. Try again in a moment.';
         errEl.classList.add('show');
-      }).finally(function () {
         sendBtn.disabled = false;
         sendBtn.textContent = 'Send it to me';
       });
